@@ -112,6 +112,12 @@ Status values: `Accepted` · `Open` (needs validation or a choice) · `Provision
 - **Why.** Works under any hosting model (serverless, multi-instance, single-instance). In-memory counters are invalid on multi-instance/serverless hosting (no shared state). No additional service required.
 - **Revisit when.** Measured write latency on auth endpoints becomes a problem, or multi-instance rate limiting becomes unmanageable.
 
+### D-019 -- Tailwind CSS for UI styling · Accepted
+- **Context.** Next.js App Router frontend requiring consistent, responsive UI styling for the financial dashboard, charts, tables, and research views.
+- **Decision.** Use Tailwind CSS as the styling solution for MarketMind AI. Component libraries (such as shadcn/ui) are deferred.
+- **Why.** Consistent, responsive UI styling for the Next.js financial dashboard, utility-first ergonomics, and zero runtime CSS-in-JS overhead.
+- **Consequence.** All styles are composed via utility classes and PostCSS; component libraries remain deferred until UI requirements expand.
+
 ---
 
 ## 2. Accepted decisions register
@@ -143,6 +149,7 @@ The following decisions were accepted during the Phase 1.1 review. Each is imple
 | SIMPL-06 | DocumentChunk.tsv: managed via hand-written SQL migration; all FTS queries use $queryRaw; query locations documented centrally. Trigger vs application-side approach decided in Week 7-8. | Phase 1.1 | No |
 | Quote-at-write | AiCitation.quote populated at citation-write time; never null for CHUNK evidence. | Phase 1.1 | Yes (must be in AI module) |
 | CSRF-clarification | Server Actions: origin checking built-in. Route Handlers: require explicit CSRF mechanism per endpoint; document each during Phase 2. | Phase 1.1 | Yes (document during auth skeleton Week 1) |
+| D-019 | Tailwind CSS for UI styling: consistent, responsive styling for the financial dashboard. Component libraries deferred. | Week 1 | No |
 
 ---
 
