@@ -12,3 +12,4 @@ export * from "./config";
 export * from "./errors";
 export * from "./clock";
 export * from "./logger";
+export * from "./auth";

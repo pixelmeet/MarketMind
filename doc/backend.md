@@ -305,11 +305,11 @@ Prisma Migrate forward-only, expand→migrate→contract, hand-written SQL for n
 9. **Indicators** may use floats internally if documented and golden-tested to a stated tolerance (D-010 note); their outputs cross to the UI as numbers at the presentation edge. Portfolio/money maths may not.
 10. **Formulas** (position quantity, average cost, market value, weights, top-N, HHI) are exactly those in [data-model §6.3](../docs/architecture/data-model.md); the cost-basis method is **[Open U-11]** — implement behind a strategy interface and do not hard-code average cost as final.
 
-### 8.2 Decimal library and the domain-purity tension — [Open BD-03]
-[decisions D-010](../docs/architecture/decisions.md) says to use `Decimal.js` "already a Prisma dependency", while [overview §3.2](../docs/architecture/overview.md) says `domain/` imports **nothing from Prisma**. Importing `Prisma.Decimal` would couple `domain/` to Prisma; relying on a *transitive* dependency directly is fragile. Options:
-- (a) Declare `decimal.js` as a **direct** dependency (same library Prisma uses; keep versions compatible) and use it in `domain/` — a **new direct dependency requiring approval**.
-- (b) Define a thin `Money`/`Decimal` abstraction in `platform` backed by whichever library is approved, with repositories converting Prisma decimals at the boundary.
-**Interim rule:** do not write financial `domain/` code until BD-03 is decided.
+### 8.2 Decimal library and the domain-purity tension — [Accepted BD-03]
+- **Status.** Accepted (approved in Week 1, Task 4B).
+- **Decision.** Declare `decimal.js` as an explicit direct runtime dependency in `package.json` for exact financial domain arithmetic.
+- **Why.** Resolves the tension between [overview §3.2](../docs/architecture/overview.md) (which strictly forbids `domain/` from importing Prisma or `@prisma/client`) and [decisions D-010](../docs/architecture/decisions.md) (exact Decimal arithmetic). Relying on Prisma's transitive export would violate domain layer purity.
+- **Rules.** Domain modules MUST NOT import Prisma or `@prisma/client`. Financial domain code uses `decimal.js` directly, following the repository's documented financial precision and rounding policies (data-model §6). Repositories convert between database columns and Decimal domain objects at the persistence boundary.
 
 ---
 
@@ -577,8 +577,8 @@ No contradiction required modifying any original document; all originals are pre
 
 | Item | Why it came up | Status |
 |---|---|---|
-| Auth library | Authentication | Open (U-08/D-015) |
-| `decimal.js` as a direct dependency | Decimal arithmetic in `domain/` | Open (BD-03) |
+| Auth library | Authentication | **Accepted (U-08/D-015 in Task 4B: Better Auth)** |
+| `decimal.js` as a direct dependency | Decimal arithmetic in `domain/` | **Accepted (BD-03 in Task 4B)** |
 | Logging library | Structured logging | Open (BD-06) |
 | Boundary-lint tool (`dependency-cruiser` / `eslint-plugin-boundaries`) | Module boundaries | Open (BD-07) |
 | Queue library | Worker queue | Open (D-016/U-05); hand-rolled leaning |
@@ -596,7 +596,7 @@ No contradiction required modifying any original document; all originals are pre
 |---|---|---|
 | BD-01 | Allocation of work among Server Components, Server Actions and Route Handlers (§2.1) | Provisional allocation; pipeline mandatory regardless |
 | BD-02 | Success/error envelope and `VALIDATION` HTTP status (400 vs 422) | §4 provisional |
-| BD-03 | Decimal library / domain-purity (§8.2) | No financial domain code until decided |
+| BD-03 | Decimal library / domain-purity (§8.2) | **Accepted**: `decimal.js` direct dependency in `domain/`; no Prisma imports in `domain/` |
 | BD-05 | Ledger concurrency control (§7.4) | Leaning: lock `Portfolio` row; do not implement ledger writes yet |
 | BD-06 | Logger implementation | Minimal in-house wrapper |
 | BD-07 | Boundary-enforcement tool | Small repository script |
@@ -610,9 +610,11 @@ No contradiction required modifying any original document; all originals are pre
 | BD-16 | AI daily-budget counting source and day-boundary timezone | Decide with U-10 |
 
 ### 16.3 Open items inherited from the architecture set (still open, still unresolved)
-U-01 market-data source · U-02 news/disclosure sources · U-03 LLM provider · U-04 adjusted prices/corporate actions · U-05 queue implementation · U-06 sector source · U-07 holiday calendar/cadence · U-08 auth library · U-09 hosting · U-10 rate-limit storage · U-11 cost-basis method · U-12 retention/deletion/export · U-13 legal review · U-14 audit append-only enforcement · rounding mode · uncited-text policy · evidence thresholds · numeric tolerance · FTS language configuration.
+U-01 market-data source · U-02 news/disclosure sources · U-03 LLM provider · U-04 adjusted prices/corporate actions · U-05 queue implementation · U-06 sector source · U-07 holiday calendar/cadence · U-09 hosting · U-10 rate-limit storage · U-11 cost-basis method · U-12 retention/deletion/export · U-13 legal review · U-14 audit append-only enforcement · rounding mode · uncited-text policy · evidence thresholds · numeric tolerance · FTS language configuration.
 
 ### 16.4 Approval log
 | Date | Item | Approved by | Notes |
 |---|---|---|---|
 | — | No new frameworks/dependencies/APIs/DB decisions without documentation and approval | Project owner | Stated in task instructions |
+| 2026-10-02 | U-08 / D-015: Better Auth library with security constraints (Server Actions for mutations, cookieCache disabled) | Project owner | Week 1, Task 4B approval |
+| 2026-10-02 | BD-03: decimal.js direct runtime dependency for domain layer purity | Project owner | Week 1, Task 4B approval |
