@@ -16,7 +16,7 @@ export default function AdminPage() {
             <h1 className="text-2xl sm:text-3xl font-bold tracking-tight text-text">
               Admin & Ingestion Operations
             </h1>
-            <Badge tone="warning">Role Gated (ADMIN)</Badge>
+            <Badge tone="warning">Target: ADMIN (Auth Pending U-08)</Badge>
           </div>
           <p className="text-sm text-text-muted mt-1">
             Background worker job queue, dead-letter monitoring, and provider run audits (doc/overview.md §5).
@@ -26,6 +26,12 @@ export default function AdminPage() {
         <Button variant="secondary" disabled size="sm" title="Disabled until worker is scheduled">
           Re-queue Dead Jobs
         </Button>
+      </div>
+
+      {/* Operational Security Notice */}
+      <div className="p-3 rounded-md bg-surface-muted/60 border border-border text-xs text-text-muted">
+        <span className="font-semibold text-text">Security Status: </span>
+        Server-side role gating (ADMIN) is scheduled for Week 1 identity integration (U-08). In this foundation phase, no privileged operational actions or sensitive controls are active or exposed.
       </div>
 
       {/* Worker Model Card */}

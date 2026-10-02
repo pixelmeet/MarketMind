@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { Header } from "./Header";
 import { SideNav } from "./SideNav";
@@ -14,6 +14,18 @@ export interface AppShellProps {
 
 export function AppShell({ children }: AppShellProps) {
   const [isMobileDrawerOpen, setIsMobileDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        setIsMobileDrawerOpen(false);
+      }
+    };
+    if (isMobileDrawerOpen) {
+      window.addEventListener("keydown", handleKeyDown);
+      return () => window.removeEventListener("keydown", handleKeyDown);
+    }
+  }, [isMobileDrawerOpen]);
 
   return (
     <div className="min-h-screen flex flex-col bg-bg text-text antialiased">

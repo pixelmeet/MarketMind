@@ -1,7 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { SearchIcon } from "@/components/ui/Icons";
 import { FreshnessBadge } from "@/components/finance/FreshnessBadge";
 
@@ -14,6 +15,19 @@ export function Header({
   onMobileMenuToggle,
   isMobileMenuOpen,
 }: HeaderProps) {
+  const router = useRouter();
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const activeTag = document.activeElement?.tagName || "";
+      if (e.key === "/" && !["INPUT", "TEXTAREA", "SELECT"].includes(activeTag)) {
+        e.preventDefault();
+        router.push("/markets");
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, [router]);
   return (
     <header className="sticky top-0 z-30 flex h-16 w-full items-center justify-between border-b border-border bg-surface px-4 md:px-6 shadow-xs">
       <div className="flex items-center gap-3 md:gap-4">
