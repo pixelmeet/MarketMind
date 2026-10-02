@@ -1,26 +1,80 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: #FFFFFF;
+  --color-surface: #FFFFFF;
+  --color-surface-muted: #F6F7F9;
+  --color-border: #E3E6EB;
+  --color-border-strong: #8A93A1;
+  --color-text: #14181F;
+  --color-text-muted: #4B5563;
+  --color-text-subtle: #5B6472;
+  --color-primary: #1D4ED8;
+  --color-primary-fg: #FFFFFF;
+  --color-positive: #047857;
+  --color-positive-bg: #ECFDF5;
+  --color-negative: #B91C1C;
+  --color-negative-bg: #FEF2F2;
+  --color-warning: #92400E;
+  --color-warning-bg: #FFFBEB;
+  --color-info: #0369A1;
+  --color-info-bg: #F0F9FF;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --color-bg: #0B0F14;
+    --color-surface: #121821;
+    --color-surface-muted: #18202B;
+    --color-border: #263041;
+    --color-border-strong: #5A6578;
+    --color-text: #E6EAF0;
+    --color-text-muted: #A3ADBD;
+    --color-text-subtle: #7D8799;
+    --color-primary: #60A5FA;
+    --color-primary-fg: #0B0F14;
+    --color-positive: #34D399;
+    --color-positive-bg: #064E3B;
+    --color-negative: #F87171;
+    --color-negative-bg: #7F1D1D;
+    --color-warning: #FBBF24;
+    --color-warning-bg: #78350F;
+    --color-info: #38BDF8;
+    --color-info-bg: #0C4A6E;
   }
 }
 
+@theme {
+  --color-bg: var(--color-bg);
+  --color-surface: var(--color-surface);
+  --color-surface-muted: var(--color-surface-muted);
+  --color-border: var(--color-border);
+  --color-border-strong: var(--color-border-strong);
+  --color-text: var(--color-text);
+  --color-text-muted: var(--color-text-muted);
+  --color-text-subtle: var(--color-text-subtle);
+  --color-primary: var(--color-primary);
+  --color-primary-fg: var(--color-primary-fg);
+  --color-positive: var(--color-positive);
+  --color-positive-bg: var(--color-positive-bg);
+  --color-negative: var(--color-negative);
+  --color-negative-bg: var(--color-negative-bg);
+  --color-warning: var(--color-warning);
+  --color-warning-bg: var(--color-warning-bg);
+  --color-info: var(--color-info);
+  --color-info-bg: var(--color-info-bg);
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* Tabular figures for financial numbers */
+.tabular-nums {
+  font-variant-numeric: tabular-nums;
 }
