@@ -34,6 +34,7 @@ export function validateServerEnv(
     isTest: data.NODE_ENV === "test",
     databaseUrl: data.DATABASE_URL,
     directUrl: data.DIRECT_URL,
+    auditPseudonymKey: data.AUDIT_PSEUDONYM_KEY,
   };
 }
 

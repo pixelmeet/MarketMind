@@ -13,3 +13,4 @@ export * from "./errors";
 export * from "./clock";
 export * from "./logger";
 export * from "./auth";
+export * from "./audit";

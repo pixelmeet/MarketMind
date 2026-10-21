@@ -37,6 +37,7 @@ export interface ServerConfig {
   isTest: boolean;
   databaseUrl?: string;
   directUrl?: string;
+  auditPseudonymKey?: string;
 }
 
 /**
